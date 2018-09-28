@@ -21,7 +21,7 @@ const encode = function(thing) {
   return encodeURIComponent(thing).replace(/^%40/, '@');
 };
 const jsonContentType = HEADERS.JSON;
-const contenTypeAccept = `${jsonContentType};`;
+const contentTypeAccept = `${jsonContentType};`;
 
 /**
  * Just a helper (`config[key] || default` doesn't work because of zeroes)
@@ -263,7 +263,7 @@ class ProxyStorage implements IProxy {
     const acceptEncoding = 'Accept-Encoding';
     const userAgent = 'User-Agent';
 
-    headers[accept] = headers[accept] || contenTypeAccept;
+    headers[accept] = headers[accept] || contentTypeAccept;
     headers[acceptEncoding] = headers[acceptEncoding] || 'gzip';
     // registry.npmjs.org will only return search result if user-agent include string 'npm'
     headers[userAgent] = headers[userAgent] || `npm (${this.userAgent})`;
@@ -409,7 +409,7 @@ class ProxyStorage implements IProxy {
     const headers = {};
     if (_.isNil(options.etag) === false) {
       headers['If-None-Match'] = options.etag;
-      headers['Accept'] = contenTypeAccept;
+      headers['Accept'] = contentTypeAccept;
     }
 
     this.request(
@@ -452,7 +452,7 @@ class ProxyStorage implements IProxy {
       uri_full: url,
       encoding: null,
       headers: {
-        Accept: contenTypeAccept,
+        Accept: contentTypeAccept,
       },
     });
 

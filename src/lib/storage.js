@@ -112,7 +112,7 @@ class Storage implements IStorageHandler {
 
   /**
    * Upload a tarball for {name} package
-   Function is syncronous and returns a WritableStream
+   Function is synchronous and returns a WritableStream
    Used storages: local (write)
    */
   addTarball(name: string, filename: string): IUploadTarball {
@@ -121,7 +121,7 @@ class Storage implements IStorageHandler {
 
   /**
    Get a tarball from a storage for {name} package
-   Function is syncronous and returns a ReadableStream
+   Function is synchronous and returns a ReadableStream
    Function tries to read tarball locally, if it fails then it reads package
    information in order to figure out where we can get this tarball from
    Used storages: local || uplink (just one)

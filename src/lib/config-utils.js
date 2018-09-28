@@ -21,27 +21,26 @@ const BLACKLIST = {
 };
 
 /**
- * Normalise user list.
+ * Normalize user list.
  * @return {Array}
  */
-export function normalizeUserlist(oldFormat: any, newFormat: any) {
+export function normalizeUserList(...args: any): Array<string> {
   const result = [];
-  /* eslint prefer-rest-params: "off" */
 
-  for (let i = 0; i < arguments.length; i++) {
-    if (arguments[i] == null) {
+  for (const value of args) {
+    if (value == null) {
       continue;
     }
-
     // if it's a string, split it to array
-    if (_.isString(arguments[i])) {
-      result.push(arguments[i].split(/\s+/));
-    } else if (Array.isArray(arguments[i])) {
-      result.push(arguments[i]);
+    if (typeof value === 'string') {
+      result.push(value.split(/\s+/));
+    } else if (Array.isArray(value)) {
+      result.push(value);
     } else {
-      throw ErrorCode.getInternalError('CONFIG: bad package acl (array or string expected): ' + JSON.stringify(arguments[i]));
+      throw ErrorCode.getInternalError('CONFIG: bad package acl (array or string expected): ' + JSON.stringify(value));
     }
   }
+
   return _.flatten(result);
 }
 
@@ -117,11 +116,11 @@ export function normalisePackageAccess(packages: PackageList): PackageList {
   for (let pkg in packages) {
     if (Object.prototype.hasOwnProperty.call(packages, pkg)) {
       assert(_.isObject(packages[pkg]) && _.isArray(packages[pkg]) === false, `CONFIG: bad "'${pkg}'" package description (object expected)`);
-      normalizedPkgs[pkg].access = normalizeUserlist(packages[pkg].allow_access, packages[pkg].access);
+      normalizedPkgs[pkg].access = normalizeUserList(packages[pkg].allow_access, packages[pkg].access);
       delete normalizedPkgs[pkg].allow_access;
-      normalizedPkgs[pkg].publish = normalizeUserlist(packages[pkg].allow_publish, packages[pkg].publish);
+      normalizedPkgs[pkg].publish = normalizeUserList(packages[pkg].allow_publish, packages[pkg].publish);
       delete normalizedPkgs[pkg].allow_publish;
-      normalizedPkgs[pkg].proxy = normalizeUserlist(packages[pkg].proxy_access, packages[pkg].proxy);
+      normalizedPkgs[pkg].proxy = normalizeUserList(packages[pkg].proxy_access, packages[pkg].proxy);
       delete normalizedPkgs[pkg].proxy_access;
     }
   }
