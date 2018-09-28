@@ -46,7 +46,7 @@ function isES6(plugin) {
  * and sinopia-ldap. All verdaccio prefix will have preferences.
  * @param {*} config a reference of the configuration settings
  * @param {*} pluginConfigs
- * @param {*} params a set of params to initialise the plugin
+ * @param {*} params a set of params to initialize the plugin
  * @param {*} sanityCheck callback that check the shape that should fulfill the plugin
  * @return {Array} list of plugins
  */
@@ -92,12 +92,15 @@ export default function loadPlugin<T>(config: Config, pluginConfigs: any = {}, p
 
     if (plugin === null) {
       logger.logger.error({content: pluginId}, 'plugin not found. try npm install verdaccio-@{content}');
-      throw Error('"' + pluginId + '" plugin not found\ntry "npm install verdaccio-' + pluginId + '"');
+      throw Error(`
+        ${pluginId} plugin not found.
+        try "npm install verdaccio-'${pluginId}
+      `);
     }
 
     if (!isValid(plugin)) {
       logger.logger.error({content: pluginId}, "@{content} doesn't look like a valid plugin");
-      throw Error('"' + pluginId + '" doesn\'t look like a valid plugin');
+      throw Error(`${pluginId} is not a valid plugin`);
     }
     /* eslint new-cap:off */
     plugin = isES6(plugin) ? new plugin.default(mergeConfig(config, pluginConfigs[pluginId]), params) : plugin(pluginConfigs[pluginId], params);
@@ -105,8 +108,9 @@ export default function loadPlugin<T>(config: Config, pluginConfigs: any = {}, p
 
     if (plugin === null || !sanityCheck(plugin)) {
       logger.logger.error({content: pluginId}, "@{content} doesn't look like a valid plugin");
-      throw Error('"' + pluginId + '" doesn\'t look like a valid plugin');
+      throw Error(`${pluginId} is not a valid plugin`);
     }
+
     logger.logger.warn({content: pluginId}, 'Plugin successfully loaded: @{content}');
     return plugin;
   });

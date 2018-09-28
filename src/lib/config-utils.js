@@ -24,10 +24,10 @@ const BLACKLIST = {
  * Normalize user list.
  * @return {Array}
  */
-export function normalizeUserList(...args: any): Array<string> {
+export function normalizeUserList(oldFormat: any, newFormat: any) {
   const result = [];
 
-  for (const value of args) {
+  for (const value of Array.from(arguments)) {
     if (value == null) {
       continue;
     }

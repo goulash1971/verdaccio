@@ -53,16 +53,15 @@ const images = {
 };
 
 module.exports.get_image = function(status) {
-  if (status in images) {
-    return 'http://flic.kr/p/' + images[status];
-    // return 'https://secure.flickr.com/photos/girliemac/'+images[status]+'/in/set-72157628409467125/lightbox/'
+  if (Object.prototype.hasOwnProperty.call(images, status)) {
+    return `http://flic.kr/p/${images[status]}`;
   }
 };
 
 module.exports.middleware = function(req, res, next) {
   let _writeHead = res.writeHead;
   res.writeHead = function(status) {
-    if (status in images) {
+    if (Object.prototype.hasOwnProperty.call(images, status)) {
       res.setHeader('X-Status-Cat', module.exports.get_image(status));
     }
     /* eslint prefer-rest-params: "off" */
