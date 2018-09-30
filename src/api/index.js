@@ -25,7 +25,6 @@ import type {Config as IConfig, IPluginMiddleware} from '@verdaccio/types';
 
 const LoggerApp = require('../lib/logger');
 const Middleware = require('./middleware');
-const Cats = require('../lib/status-cats');
 
 const defineAPI = function(config: IConfig, storage: IStorageHandler) {
   const auth: IAuth = new Auth(config);
@@ -42,7 +41,7 @@ const defineAPI = function(config: IConfig, storage: IStorageHandler) {
     res.setHeader('X-Powered-By', config.user_agent);
     next();
   });
-  app.use(Cats.middleware);
+
   app.use(compression());
 
   app.get('/favicon.ico', function(req: $RequestExtend, res: $ResponseExtend, next: $NextFunctionVer) {
